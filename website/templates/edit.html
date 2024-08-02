@@ -1,0 +1,118 @@
+{% extends "base.html" %} {% block title %}edit{% endblock %}
+{% block content %}
+<form method="POST">
+  <h3 align="center">edit</h3>
+  <!-- <div class="form-group">
+    <div class="input-group mb-3">
+      <div class="d-inline-flex gap-1"">
+          <input type="button" class="btn btn-outline-success" data-toggle="button" id="income" name="income" value="Income" onclick="return handleClick('in')"/>
+          <input type="button" class="btn btn-outline-danger" data-toggle="button" id="expense" name="expense" value="Expense" onclick="return handleClick('out')"/>
+        <script>
+          function handleClick(val){
+              document.getElementById('flag').value = val;
+              return true;
+          }
+        </script>
+
+      <input type="hidden" name="flag" id="flag" value=""/>
+
+    </div>
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text">Date</span>
+    <input
+      type="date"
+      class="form-control"
+	    id="date"
+	    name="date"
+      placeholder="Date"
+      aria-label="Date"
+    />
+  </div>
+
+  <div class="input-group mb-3">
+    <label class="input-group-text" for="category">Category</label>
+    <select class="form-select" id="category" name="category">
+      <option selected>Choose...</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <li><hr class="dropdown-divider" /></li>
+      <option value="3">+ Add new category</option>
+    </select>
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text">$</span>
+    <input type="number" class="form-control" id="amount" name="amount" aria-label="Amount" />
+  </div>
+
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+	    id="description"
+	    name="description"
+      placeholder="Description"
+      aria-label="Description"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Add</button> -->
+ 
+  <a href="/" style="float: inline-end;">All good, baby, baby!</a>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for row in history %}
+      <tr>
+        <td>
+            {{row.date}}
+         </td>
+         <td>
+            {{row.amount}}
+        </td>
+        <td>
+            {{row.category}}
+        </td>
+        <td>
+            {{row.description}}
+        </td>
+        <td>
+          <button type="button" class="close" onclick="deleteRow({{ row.id }})">
+            <span aria-hidden=""true>&times;</span>
+          </button>
+        </td>
+        {% endfor %}
+
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+
+{% endblock %}
