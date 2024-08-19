@@ -25,6 +25,7 @@
     <input
       type="date"
       class="form-control"
+      placeholder="MM/DD/YYYY"
 	    id="date"
 	    name="date"
       placeholder="Date"
@@ -35,9 +36,14 @@
   <div class="input-group mb-3">
     <label class="input-group-text" for="category">Category</label>
     <select class="form-select" id="category" name="category">
-      <option selected>Choose...</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
+      <!-- <option selected>Choose...</option>
+      {% for cat in categories %}
+      <option value='{{cat.id}}'>{{ cat.category }}</option>
+  {% endfor %} -->
+
+      <option value="Work">Work</option>
+      <option value="Food">Food</option>
+      <option value="Transportation">Transportation</option>
       <li><hr class="dropdown-divider" /></li>
       <option value="3">+ Add new category</option>
     </select>
@@ -58,6 +64,9 @@
       aria-label="Description"
     />
   </div>
+
+  <!-- tagging system -->
+   
 
   <button type="submit" class="btn btn-primary">Add</button>
 
@@ -94,7 +103,7 @@
         </td>
         {% endfor %}
 
-      <tr>
+      <!-- <tr>
         <th scope="row">1</th>
         <td>Mark</td>
         <td>Otto</td>
@@ -110,7 +119,7 @@
         <th scope="row">3</th>
         <td colspan="2">Larry the Bird</td>
         <td>@twitter</td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 </form>

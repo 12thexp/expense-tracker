@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, session, flash, json, jsonify
+from sqlalchemy import text
 from .models import Transactions
 from . import db
 from datetime import datetime
@@ -10,6 +11,8 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 def home():
     history = Transactions.query.order_by(Transactions.id.desc()).all()
+    categories = db.session.execute(text('SELECT DISTINCT category FROM Transactions ORDER BY category ASC'))
+    print(categories)
     data = request.form
     # print(data)
     if request.method == 'POST':
@@ -30,7 +33,7 @@ def home():
 
         history = Transactions.query.order_by(Transactions.id.desc()).all()
 
-        return render_template("home.html", history=history)
+        return render_template("home.html", history=history, categories=categories)
     
     return render_template("home.html", history=history)
 

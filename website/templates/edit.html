@@ -88,13 +88,12 @@
             {{row.description}}
         </td>
         <td>
-          <button type="button" class="close" onclick="deleteRow({{ row.id }})">
-            <span aria-hidden=""true>&times;</span>
+          <button type="button" class="btn btn-close" onclick="deleteRow('{{row.id}}')">
           </button>
         </td>
         {% endfor %}
 
-      <tr>
+      <!-- <tr>
         <th scope="row">1</th>
         <td>Mark</td>
         <td>Otto</td>
@@ -110,7 +109,7 @@
         <th scope="row">3</th>
         <td colspan="2">Larry the Bird</td>
         <td>@twitter</td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 </form>

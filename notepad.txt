@@ -1,0 +1,13 @@
+Features to add:
+
+- dynamically add new categories to dropdown list/database
+- tagging system (e.g. to group expenses from a trip, or related to a certain friend group etc)
+- section to see table breakdown by category and month/year (like an excel spreadsheet)
+
+    
+    
+    
+    
+    
+    
+    
