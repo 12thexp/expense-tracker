@@ -16,7 +16,6 @@ class Transactions(db.Model):
     flag = db.Column(db.String(2), nullable=False)
 
 
-
 class Categories(db.Model):
 
     __tablename__ = 'categories'

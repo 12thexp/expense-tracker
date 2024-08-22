@@ -1,3 +1,9 @@
+function handleClick(val){
+    document.getElementById('flag').value = val;
+    return true;
+}
+
+
 function deleteRow(rowId) {
     fetch('/delete-row', {
         method: 'POST',

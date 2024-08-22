@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, flash, json, jsonify
 from sqlalchemy import text
-from .models import Transactions
+from .models import Transactions, Categories
 from . import db
 from datetime import datetime
 
@@ -13,8 +13,7 @@ def home():
     history = Transactions.query.order_by(Transactions.id.desc()).all()
     categories = db.session.execute(text('SELECT DISTINCT category FROM Transactions ORDER BY category ASC'))
     print(categories)
-    data = request.form
-    # print(data)
+    # data = request.form
     if request.method == 'POST':
         flag = request.form.get('flag')
         date = request.form.get('date')
@@ -31,7 +30,7 @@ def home():
         db.session.commit()
         flash('Transaction inserted!', category='success')
 
-        history = Transactions.query.order_by(Transactions.id.desc()).all()
+        history = Transactions.query.order_by(Transactions.date.desc()).all()
 
         return render_template("home.html", history=history, categories=categories)
     

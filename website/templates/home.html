@@ -8,12 +8,6 @@
       <div class="d-inline-flex gap-1"">
           <input type="button" class="btn btn-outline-success" data-toggle="button" id="income" name="income" value="Income" onclick="return handleClick('in')"/>
           <input type="button" class="btn btn-outline-danger" data-toggle="button" id="expense" name="expense" value="Expense" onclick="return handleClick('out')"/>
-        <script>
-          function handleClick(val){
-              document.getElementById('flag').value = val;
-              return true;
-          }
-        </script>
 
       <input type="hidden" name="flag" id="flag" value=""/>
 
@@ -36,10 +30,10 @@
   <div class="input-group mb-3">
     <label class="input-group-text" for="category">Category</label>
     <select class="form-select" id="category" name="category">
-      <!-- <option selected>Choose...</option>
-      {% for cat in categories %}
-      <option value='{{cat.id}}'>{{ cat.category }}</option>
-  {% endfor %} -->
+      <option selected>Choose...</option>
+      <!-- {% for cat in categories %}
+        <option value='{{cat.id}}'>{{ cat.category }}</option>
+      {% endfor %} -->
 
       <option value="Work">Work</option>
       <option value="Food">Food</option>
@@ -51,7 +45,7 @@
 
   <div class="input-group mb-3">
     <span class="input-group-text">$</span>
-    <input type="number" class="form-control" id="amount" name="amount" aria-label="Amount" />
+    <input type="float" class="form-control" id="amount" name="amount" aria-label="Amount" />
   </div>
 
   <div class="input-group mb-3">
