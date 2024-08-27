@@ -1,9 +1,10 @@
+// handles 'Income' and 'Expenses' flags
 function handleClick(val){
     document.getElementById('flag').value = val;
     return true;
 }
 
-
+// deletes rows in /edit page
 function deleteRow(rowId) {
     fetch('/delete-row', {
         method: 'POST',

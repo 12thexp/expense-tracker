@@ -26,8 +26,3 @@ class Categories(db.Model):
     # establish the one-to-many relation here
     # transaction = db.relationship('Transactions', backref='Categories', lazy='dynamic')
 
-
-
-def init_db():
-
-    db.create_all()
