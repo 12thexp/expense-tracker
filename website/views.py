@@ -6,19 +6,13 @@ from datetime import datetime
 
 
 views = Blueprint('views', __name__)
-categories = ['work', 'food', 'car', 'public transport']  # base transaction categories
 
-def insert_category(cat):
-    global categories
-    if cat not in categories:
-        categories.append(cat)
-    return categories
 
 @views.route('/', methods=['GET', 'POST'])
 def home():
-    global categories
 
     history = Transactions.query.order_by(Transactions.id.desc()).all()
+    categories = Categories.query.order_by(Categories.category.asc()).all()
     
     if request.method == 'POST':
         flag = request.form.get('flag')
@@ -36,7 +30,8 @@ def home():
         db.session.commit()
         flash('Transaction inserted!', category='success')
 
-        categories = insert_category(category)
+        db.session.merge(Categories(category=category))
+        categories = Categories.query.order_by(Categories.category.asc()).all()
         history = Transactions.query.order_by(Transactions.date.desc()).all()
 
         return render_template("home.html", history=history, categories=categories)

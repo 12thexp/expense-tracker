@@ -32,9 +32,10 @@
 
     <input type="hidden" name="category" id="category"/>
     <select class="form-select" name="category_ddl" id="category_ddl" onchange="DropDownChanged(this);">
-    <option selected></option>
+    <!-- <option selected></option> -->
+     <option value="" disabled selected>choose...</option>
       {% for cat in categories %}
-      <option value='{{cat}}'>{{ cat }}</option>
+        <option value='{{cat.category}}'>{{ cat.category }}</option>
       {% endfor %}
       <li><hr class="dropdown-divider" /></li>
       <option value="">+ Add new category</option>
