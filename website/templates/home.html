@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %}home{% endblock %}
 
 {% block content %}
-<form method="POST">
+<form method="POST" onsubmit=FormSubmit(this)>
   <h3 align="center">add transaction</h3>
   <div class="form-group">
     <div class="input-group mb-3">
@@ -29,18 +29,16 @@
 
   <div class="input-group mb-3">
     <label class="input-group-text" for="category">Category</label>
-    <select class="form-select" id="category" name="category">
-      <option selected>Choose...</option>
-      <!-- {% for cat in categories %}
-        <option value='{{cat.id}}'>{{ cat.category }}</option>
-      {% endfor %} -->
 
-      <option value="Work">Work</option>
-      <option value="Food">Food</option>
-      <option value="Transportation">Transportation</option>
+    <input type="hidden" name="category" id="category"/>
+    <select class="form-select" name="category_ddl" id="category_ddl" onchange="DropDownChanged(this);">
+    <option selected></option>
+      {% for cat in categories %}
+      <option value='{{cat}}'>{{ cat }}</option>
+      {% endfor %}
       <li><hr class="dropdown-divider" /></li>
-      <option value="3">+ Add new category</option>
-    </select>
+      <option value="">+ Add new category</option>
+    </select> <input type="text" name="category_in" id="category_in" style="display: none;" />
   </div>
 
   <div class="input-group mb-3">
@@ -96,24 +94,6 @@
             {{row.description}}
         </td>
         {% endfor %}
-
-      <!-- <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr> -->
     </tbody>
   </table>
 </form>

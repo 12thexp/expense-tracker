@@ -10,7 +10,8 @@ class Transactions(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
-    category = db.Column(db.String(50), ForeignKey('categories.category'))
+    # category = db.Column(db.String(50), ForeignKey('categories.category'))
+    category = db.Column(db.String(50))
     amount = db.Column(db.Double, nullable=False)
     description = db.Column(db.String(200))
     flag = db.Column(db.String(2), nullable=False)
@@ -23,4 +24,10 @@ class Categories(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(50), primary_key=True)
     # establish the one-to-many relation here
-    transaction = db.relationship('Transactions', backref='Categories', lazy='dynamic')
+    # transaction = db.relationship('Transactions', backref='Categories', lazy='dynamic')
+
+
+
+def init_db():
+
+    db.create_all()
