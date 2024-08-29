@@ -5,6 +5,7 @@
 
     hiddenInput.setAttribute('type', 'hidden');
     hiddenInput.setAttribute('name', el.getAttribute('data-name'));
+    hiddenInput.setAttribute('id', el.getAttribute('data-name'));
     mainInput.setAttribute('type', 'text');
     mainInput.setAttribute('placeholder', 'tags...')
     mainInput.setAttribute('onfocus', "this.placeholder=''");

@@ -19,9 +19,10 @@ def create_app():
     # register blueprint w the flask app
     app.register_blueprint(views, url_prefix="/")
 
-    from .models import Transactions, Categories, init_db
+    from .models import Transactions, Categories, Tags, init_db
 
     with app.app_context():
+        db.drop_all()
         db.create_all()
         init_db()
     return app
