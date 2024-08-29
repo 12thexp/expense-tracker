@@ -1,16 +1,31 @@
-{% extends "base.html" %} {% block title %}home{% endblock %}
+{% extends "base.html" %} {% block title %}home{% endblock %} {% block content
+%}
 
-{% block content %}
-<form method="POST" onsubmit=FormSubmit(this)>
+<form method="POST" onsubmit="FormSubmit(this)">
   <h3 align="center">add transaction</h3>
   <div class="form-group">
     <div class="input-group mb-3">
       <div class="d-inline-flex gap-1"">
-          <input type="button" class="btn btn-outline-success" data-toggle="button" id="income" name="income" value="Income" onclick="return handleClick('in')"/>
-          <input type="button" class="btn btn-outline-danger" data-toggle="button" id="expense" name="expense" value="Expense" onclick="return handleClick('out')"/>
+      <input
+        type="button"
+        class="btn btn-outline-success"
+        data-toggle="button"
+        id="income"
+        name="income"
+        value="Income"
+        onclick="return handleClick('in')"
+      />
+      <input
+        type="button"
+        class="btn btn-outline-danger"
+        data-toggle="button"
+        id="expense"
+        name="expense"
+        value="Expense"
+        onclick="return handleClick('out')"
+      />
 
-      <input type="hidden" name="flag" id="flag" value=""/>
-
+      <input type="hidden" name="flag" id="flag" value="" />
     </div>
   </div>
 
@@ -20,8 +35,8 @@
       type="date"
       class="form-control"
       placeholder="MM/DD/YYYY"
-	    id="date"
-	    name="date"
+      id="date"
+      name="date"
       placeholder="Date"
       aria-label="Date"
     />
@@ -30,44 +45,67 @@
   <div class="input-group mb-3">
     <label class="input-group-text" for="category">Category</label>
 
-    <input type="hidden" name="category" id="category"/>
-    <select class="form-select" name="category_ddl" id="category_ddl" onchange="DropDownChanged(this);">
-    <!-- <option selected></option> -->
-     <option value="" disabled selected>choose...</option>
+    <input type="hidden" name="category" id="category" />
+    <select
+      class="form-select"
+      name="category_ddl"
+      id="category_ddl"
+      onchange="DropDownChanged(this);"
+    >
+      <!-- <option selected></option> -->
+      <option value="" disabled selected>choose...</option>
       {% for cat in categories %}
-        <option value='{{cat.category}}'>{{ cat.category }}</option>
+      <option value="{{cat.category}}">{{ cat.category }}</option>
       {% endfor %}
       <li><hr class="dropdown-divider" /></li>
       <option value="">+ Add new category</option>
-    </select> <input type="text" name="category_in" id="category_in" style="display: none;" />
+    </select>
+    <input
+      type="text"
+      name="category_in"
+      id="category_in"
+      style="display: none"
+    />
   </div>
 
   <div class="input-group mb-3">
     <span class="input-group-text">$</span>
-    <input type="float" class="form-control" id="amount" name="amount" aria-label="Amount" />
+    <input
+      type="float"
+      class="form-control"
+      id="amount"
+      name="amount"
+      aria-label="Amount"
+    />
   </div>
 
   <div class="input-group mb-3">
     <input
       type="text"
       class="form-control"
-	    id="description"
-	    name="description"
+      id="description"
+      name="description"
       placeholder="Description"
       aria-label="Description"
     />
   </div>
 
+  <p>
   <!-- tagging system -->
-   
-
+  <div class="tags-input" data-name="tags-input">
+    <!-- <span class="tag">CSS<span class="close"></span></span>
+      <span class="tag">javascript<span class="close"></span></span> -->
+  </div>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='tags.js')}}"
+  ></script>
+</p>
   <button type="submit" class="btn btn-primary">Add</button>
 
-
   <!-- <div style="float: inline-end;" -->
-  <a href="/edit" style="float: inline-end;">Edit</a>
+  <a href="/edit" style="float: inline-end">Edit</a>
   <!-- </div> -->
-
 
   <table class="table">
     <thead>
@@ -79,22 +117,14 @@
       </tr>
     </thead>
     <tbody>
-
       {% for row in history %}
       <tr>
-        <td>
-            {{row.date}}
-         </td>
-         <td>
-            {{row.amount}}
-        </td>
-        <td>
-            {{row.category}}
-        </td>
-        <td>
-            {{row.description}}
-        </td>
+        <td>{{row.date}}</td>
+        <td>{{row.amount}}</td>
+        <td>{{row.category}}</td>
+        <td>{{row.description}}</td>
         {% endfor %}
+      </tr>
     </tbody>
   </table>
 </form>
