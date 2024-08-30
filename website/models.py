@@ -15,7 +15,7 @@ class Transactions(db.Model):
     amount = db.Column(db.Double, nullable=False)
     description = db.Column(db.String(200))
     flag = db.Column(db.String(2), nullable=False)
-    tags = db.relationship("Tags", secondary="transaction_tag", backref="transactions")
+    tags = db.relationship("Tags", secondary="tag_transaction", backref="transactions")
 
 
 class Categories(db.Model):
@@ -33,13 +33,13 @@ class Tags(db.Model):
     tag = db.Column(db.String)
 
     def __repr__(self):
-        return f'<Tag "{self.tag}">'
+        return f'{self.tag}'
 
 
-transaction_tag = db.Table(
-    "transaction_tag",
-    db.Column("transaction_id", db.Integer, db.ForeignKey("transactions.id")),
+tag_transaction = db.Table(
+    "tag_transaction",
     db.Column("tag_id", db.Integer, db.ForeignKey("tags.id")),
+    db.Column("transaction_id", db.Integer, db.ForeignKey("transactions.id"))
 )
 
 

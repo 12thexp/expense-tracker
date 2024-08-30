@@ -94,11 +94,11 @@
   <p>
     <div class="tags-input" id="tags-input" data-name="tags-input"></div>
   </p>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='tags.js')}}"
-    ></script>
-  
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='tags.js')}}"
+  ></script>
+
   <button type="submit" class="btn btn-primary">Add</button>
 
   <!-- <div style="float: inline-end;" -->
@@ -112,6 +112,7 @@
         <th scope="col">Amount</th>
         <th scope="col">Category</th>
         <th scope="col">Description</th>
+        <th scope="col">Tags</th>
       </tr>
     </thead>
     <tbody>
@@ -121,6 +122,14 @@
         <td>{{row.amount}}</td>
         <td>{{row.category}}</td>
         <td>{{row.description}}</td>
+        <td>
+          <!-- add an onclick event that displays a page w all transactions w the clicked tag -->
+          <div class="tags-display">
+            {% for t in row.tags %}
+            <div class="tag">{{ t.__repr__() }}</div>
+            {% endfor %}
+          </div>
+        </td>
         {% endfor %}
       </tr>
     </tbody>

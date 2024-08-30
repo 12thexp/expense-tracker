@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}edit{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}edit{% endblock %} {% block content
+%}
 <form method="POST">
   <h3 align="center">edit</h3>
   <!-- <div class="form-group">
@@ -59,9 +59,10 @@
   </div>
 
   <button type="submit" class="btn btn-primary">Add</button> -->
- 
-  <a href="/" style="float: inline-end;">All good, baby, baby!</a>
 
+  <a href="/" style="float: inline-end">All good, baby, baby!</a>
+
+  <!-- OSS: contenteditable doesn't save changes (yet) -->
   <table class="table">
     <thead>
       <tr>
@@ -69,47 +70,40 @@
         <th scope="col">Amount</th>
         <th scope="col">Category</th>
         <th scope="col">Description</th>
+        <th scope="col">Tags</th>
       </tr>
     </thead>
     <tbody>
-
       {% for row in history %}
       <tr>
         <td>
-            {{row.date}}
-         </td>
-         <td>
-            {{row.amount}}
+          <div contenteditable>{{row.date}}</div>
         </td>
         <td>
-            {{row.category}}
+          <div contenteditable>{{row.amount}}</div>
         </td>
         <td>
-            {{row.description}}
+          <div contenteditable>{{row.category}}</div>
         </td>
         <td>
-          <button type="button" class="btn btn-close" onclick="deleteRow('{{row.id}}')">
-          </button>
+          <div contenteditable>{{row.description}}</div>
+        </td>
+        <td>
+          <div class="tags-display">
+            {% for t in row.tags %}
+            <div class="tag">{{ t.__repr__() }}</div>
+            {% endfor %}
+          </div>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-close"
+            onclick="deleteRow('{{row.id}}')"
+          ></button>
         </td>
         {% endfor %}
-
-      <!-- <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr> -->
     </tbody>
   </table>
 </form>

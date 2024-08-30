@@ -80,7 +80,5 @@
         // trim anything that isn't a word character, space or dash, then replace all white spaces with a dash
         return tag.replace(/[^\w -]/g, '').trim().replace(/\W+/g, '-');
     }
-
-
-
 });
+

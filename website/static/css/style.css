@@ -1,10 +1,6 @@
 /* tags */
 
 .tags-input {
-    /* border: 1px solid #ddd;
-    border-radius: 6px;
-    display: inline-block; */
-
     display: block;
     width: 100%;
     padding: .375rem .75rem;
@@ -20,7 +16,7 @@
 
 .tags-input .tag {
     padding: 0.5em 0.75em;
-    /* margin: 0.25em 0.1em; */
+    margin: 0.25em 0.1em;
     border-radius: 6px;
     font-size: 90%;
     background-color: #dee2e6;
@@ -50,4 +46,50 @@
     border: 0;
     outline: 0;
     padding: 0.25em;
+}
+
+
+.tags-display {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    appearance: none;
+}
+
+
+.tags-display .tag {
+    padding: 0.5em 0.75em;
+    margin: 0.25em 0.1em;
+    border-radius: 6px;
+    font-size: 90%;
+    background-color: #dee2e6;
+    display: inline-block;
+
+}
+
+.tags-display .tag:hover {
+    background-color: #3af;
+    color: white;
+    cursor: pointer;
+}
+
+.tags-display .tag .close::after {
+    content: '×';
+    font-weight: bold;
+    display: inline-block;
+    transform: scale(1.4);
+    margin-left: 0.75em;
+}
+
+.tags-display .tag .close:hover::after {
+    color: red;
+}
+
+
+
+tr, th {
+    text-align: center;
 }
