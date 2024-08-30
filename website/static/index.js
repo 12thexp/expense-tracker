@@ -1,5 +1,5 @@
 // handles 'Income' and 'Expenses' flags
-function handleClick(val){
+function handleClick(val) {
     document.getElementById('flag').value = val;
     return true;
 }
@@ -8,7 +8,7 @@ function handleClick(val){
 function deleteRow(rowId) {
     fetch('/delete-row', {
         method: 'POST',
-        body: JSON.stringify({ rowId: rowId}),
+        body: JSON.stringify({ rowId: rowId }),
     }).then((_res) => {
         window.location.href = "./edit"
     });
@@ -27,7 +27,7 @@ function DropDownChanged(oDDL) {
 }
 
 
-function FormSubmit() {   
+function FormSubmit() {
     // for select dropdown
     var newCategoryTxt = document.getElementById("category_in")
     var oHidden = document.getElementById("category");

@@ -12,7 +12,11 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css')}}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/style.css')}}"
+    />
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
@@ -51,7 +55,7 @@
                   <span class="ms-1 d-none d-sm-inline">Income</span></a
                 >
               </li>
-              
+
               <li>
                 <a href="/stats" class="nav-link px-0 align-middle">
                   <i class="fs-4 bi-people"></i>
@@ -90,28 +94,39 @@
           </div>
         </div>
         <div class="col py-3">
-
-          {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages%}
-            {% for category, message in messages %}
-              {% if category == 'error' %}
-              <div class="alert alert-danger alert-dismissable fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              {% else %}
-              <div class="alert alert-success alert-dismissable fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              {% endif %}
-            {% endfor %}
-          {% endif %}
-          {% endwith %}
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages%} {% for category, message in messages %} {% if category ==
+          'error' %}
+          <div
+            class="alert alert-danger alert-dismissable fade show"
+            role="alert"
+          >
+            {{ message }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% else %}
+          <div
+            class="alert alert-success alert-dismissable fade show"
+            role="alert"
+          >
+            {{ message }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endif %} {% endfor %} {% endif %} {% endwith %}
 
           <div class="container">{% block content %} {% endblock %}</div>
         </div>

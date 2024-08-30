@@ -9,7 +9,7 @@ from flask import (
     jsonify,
 )
 from sqlalchemy import text
-from .models import Transactions, Categories
+from .models import Transactions, Categories, Tags
 from . import db
 from datetime import datetime
 
@@ -24,16 +24,16 @@ def home():
     categories = Categories.query.order_by(Categories.category.asc()).all()
 
     if request.method == "POST":
-        flag = request.form.get("flag")
-        date = request.form.get("date")
-        tdate = datetime.strptime(date, "%Y-%m-%d").date()
-        category = request.form.get("category")
-        amount = float(request.form.get("amount"))
-        tags = request.form.get("tags-input")
-        # tags_parser(tags)
+        date: str = request.form.get("date")
+        tdate: datetime = datetime.strptime(date, "%Y-%m-%d").date()
+        amount: float = float(request.form.get("amount"))
+        category: str = request.form.get("category")
+        description: str = request.form.get("description")
+        tags: list[str] = request.form.get("tags-input").split(",")
+        flag: str = request.form.get("flag")
+
         if flag == "out":
             amount = -amount
-        description = request.form.get("description")
 
         new_transaction = Transactions(
             date=tdate,
@@ -44,10 +44,11 @@ def home():
         )
 
         db.session.add(new_transaction)
+        tags_to_db(tags, new_transaction)
+        db.session.merge(Categories(category=category))
         db.session.commit()
         flash("Transaction inserted!", category="success")
 
-        db.session.merge(Categories(category=category))
         categories = Categories.query.order_by(Categories.category.asc()).all()
         history = Transactions.query.order_by(Transactions.date.desc()).all()
 
@@ -56,10 +57,12 @@ def home():
     return render_template("home.html", history=history)
 
 
-# ADD TAGS/TRANSACTIONS to DB
-# def tags_parser(tags):
-#     tag_list = tags.split(",")
-#     for t in tag_list:
+def tags_to_db(tags: list, transaction: Transactions) -> None:
+    """create Tags object from each tag in the list and insert into db"""
+    for t in tags:
+        t_obj = Tags(tag=t)
+        db.session.add(t_obj)
+        transaction.tags.append(t_obj)  # tag the transactions with tag t
 
 
 @views.route("/stats")
