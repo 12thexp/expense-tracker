@@ -1,5 +1,6 @@
 # ignore ALL .log files
 *.log
+instance/database.db
 
 # ignore ALL files in ANY directory named temp
 env/ 
