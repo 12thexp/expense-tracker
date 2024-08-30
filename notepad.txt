@@ -1,6 +1,8 @@
 Features to add:
 
 - tagging system (e.g. to group expenses from a trip, or related to a certain friend group etc)
+    - ability to see all transactions with a certain tag by clicking on it
+- ability to edit any item in the table and sav changes in edit page
 - section to see table breakdown by category and month/year (like an excel spreadsheet)
 - change date display format
 

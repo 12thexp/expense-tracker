@@ -33,13 +33,13 @@ class Tags(db.Model):
     tag = db.Column(db.String)
 
     def __repr__(self):
-        return f'{self.tag}'
+        return f"{self.tag}"
 
 
 tag_transaction = db.Table(
     "tag_transaction",
     db.Column("tag_id", db.Integer, db.ForeignKey("tags.id")),
-    db.Column("transaction_id", db.Integer, db.ForeignKey("transactions.id"))
+    db.Column("transaction_id", db.Integer, db.ForeignKey("transactions.id")),
 )
 
 
@@ -59,10 +59,10 @@ def init_db():
         date=date.today(), category="plants", amount=12, flag="out"
     )
     transactions3 = Transactions(
-        date=date.today(), category="car", amount=80, flag="out"
+        date=date.today(), category="vehicles", amount=80, flag="out"
     )
 
-    tag1 = Tags(tag="vehicles")
+    tag1 = Tags(tag="motorbike")
     tag2 = Tags(tag="tech")
     tag3 = Tags(tag="wifi")
     tag4 = Tags(tag="fuel")
