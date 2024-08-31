@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block title %}filter tags{% endblock %} {% block content
+%}
+<form method="POST">
+  <h3 align="center">edit</h3>
+
+  <a href="/" style="float: inline-end">Filteringgg</a>
+
+  <!-- OSS: contenteditable doesn't save changes (yet) -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Description</th>
+        <th scope="col">Tags</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in filtered %}
+      <tr>
+        <td>
+          <div>{{row.date}}</div>
+        </td>
+        <td>
+          <div>{{row.amount}}</div>
+        </td>
+        <td>
+          <div>{{row.category}}</div>
+        </td>
+        <td>
+          <div>{{row.description}}</div>
+        </td>
+        <td>
+          <div class="tags-display">
+            {% for t in row.tags %}
+            <div class="tag">{{ t.__repr__() }}</div>
+            {% endfor %}
+          </div>
+        </td>
+        <td></td>
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+</form>
+
+{% endblock %}

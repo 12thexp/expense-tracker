@@ -9,7 +9,7 @@ from flask import (
     jsonify,
 )
 from sqlalchemy import text
-from .models import Transactions, Categories, Tags
+from .models import Transactions, Categories, Tags, tag_transaction
 from . import db
 from datetime import datetime
 
@@ -102,6 +102,29 @@ def edit():
     history = Transactions.query.order_by(Transactions.id.desc()).all()
     return render_template("edit.html", history=history)
 
-@views.route("/tag-filter")
+
+# @views.route("/filter-tag", methods=["POST"])
+# def tag_filter():
+#     # tag = json.loads(request.data)
+#     # t = tag["t"]
+#     t = 'lunch'
+#     print('to filter:', t)
+#     tag_id = Tags.query.filter_by(tag=t).id
+#     filtered = Transactions.query.join(tag_transaction, Transactions.id==tag_transaction.tag_id).filter(tag_transaction.tag_id == t)
+#     return render_template("tag-filter.html", filtered=filtered)
+
+
+@views.route("/filter-tag")
 def tag_filter():
-    return render_template("tag-filter.html", history=history)
+    # tag = json.loads(request.data)
+    # t = tag["t"]
+    t = "lunch"
+    print("to filter:", t)
+    # tag = Tags.query.filter_by(tag=t)
+    # filtered = Transactions.query.join(tag_transaction, Transactions.id==tag_transaction.tag_id).filter(tag_transaction.tag_id == tag.id)
+    filtered = db.session.execute(
+        text(
+            "SELECT * FROM transactions t JOIN tag_transaction ttag on t.id=ttag.transaction_id WHERE ttag.tag_id=(SELECT id FROM tags WHERE tag like 'lunch')"
+        )
+    )
+    return render_template("filter-tag.html", filtered=filtered)

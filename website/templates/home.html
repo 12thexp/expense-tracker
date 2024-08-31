@@ -129,7 +129,7 @@
           <!-- add an onclick event that displays a page w all transactions w the clicked tag -->
           <div class="tags-display">
             {% for t in row.tags %}
-            <div class="tag">{{ t.__repr__() }}</div>
+            <button type="button" class="btn-tag" onclick="filterByTag('{{ t.__repr__() }}')">{{ t.__repr__() }}</button>
             {% endfor %}
           </div>
         </td>
