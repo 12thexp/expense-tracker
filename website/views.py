@@ -101,3 +101,7 @@ def delete_row():
 def edit():
     history = Transactions.query.order_by(Transactions.id.desc()).all()
     return render_template("edit.html", history=history)
+
+@views.route("/tag-filter")
+def tag_filter():
+    return render_template("tag-filter.html", history=history)

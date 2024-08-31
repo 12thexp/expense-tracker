@@ -61,18 +61,34 @@ def init_db():
     transactions3 = Transactions(
         date=date.today(), category="vehicles", amount=80, flag="out"
     )
+    transactions4 = Transactions(
+        date=date.today(), category="food", amount=50, flag="out"
+    )
+    transactions5 = Transactions(
+        date=date.today(), category="food", amount=20, flag="out"
+    )
 
     tag1 = Tags(tag="motorbike")
     tag2 = Tags(tag="tech")
     tag3 = Tags(tag="wifi")
     tag4 = Tags(tag="fuel")
+    tag5 = Tags(tag="sushi")
+    tag6 = Tags(tag="lunch")
+    tag7 = Tags(tag="social events")
+    tag8 = Tags(tag="chinese")
 
     transactions1.tags.append(tag3)  # Tag the first Transactions with 'animals'
     transactions3.tags.append(tag1)  # Tag the third Transactions with 'cooking'
     transactions3.tags.append(tag4)  # Tag the third Transactions with 'tech'
-    transactions3.tags.append(tag4)  # Tag the third Transactions with 'writing'
+    transactions4.tags.append(tag5)
+    transactions4.tags.append(tag6)
+    transactions4.tags.append(tag7)
+    transactions5.tags.append(tag6)
+    transactions5.tags.append(tag8)
 
-    db.session.add_all([transactions1, transactions2, transactions3])
-    db.session.add_all([tag1, tag2, tag3, tag4])
+    db.session.add_all(
+        [transactions1, transactions2, transactions3, transactions4, transactions5]
+    )
+    db.session.add_all([tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8])
 
     db.session.commit()
