@@ -97,10 +97,10 @@
   <p>
     <div class="tags-input" id="tags-input" data-name="tags-input"></div>
   </p>
-  <script
+  <!-- <script
     type="text/javascript"
     src="{{ url_for('static', filename='tags.js')}}"
-  ></script>
+  ></script> -->
 
   <button type="submit" class="btn btn-primary">Add</button>
 
@@ -126,7 +126,6 @@
         <td>{{row.category}}</td>
         <td>{{row.description}}</td>
         <td>
-          <!-- add an onclick event that displays a page w all transactions w the clicked tag -->
           <div class="tags-display">
             {% for t in row.tags %}
             <button type="button" class="btn-tag" onclick="filterByTag('{{ t.__repr__() }}')">{{ t.__repr__() }}</button>

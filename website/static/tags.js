@@ -89,6 +89,6 @@ function filterByTag(t) {
         body: JSON.stringify({ tag: t }),
         redirect: 'manual'
     }).then((_res) => {
-        window.location.href = `./filter-tag/${t}`
+        window.location.href = `/filter-tag/${t}`
     });
 }
