@@ -60,7 +60,8 @@
 }
 
 
-.tags-display .tag {
+.btn-tag {
+    all: unset;
     padding: 0.5em 0.75em;
     margin: 0.25em 0.1em;
     border-radius: 6px;
@@ -70,14 +71,14 @@
 
 }
 
-.tags-display .tag:hover {
+.btn-tag:hover {
     background-color: #3af;
     color: white;
     cursor: pointer;
 }
 
-.tags-display .tag .close::after {
-    content: '×';
+.btn-tag.close::after {
+    /* content: '×'; */
     font-weight: bold;
     display: inline-block;
     transform: scale(1.4);
