@@ -114,17 +114,15 @@ def edit():
 #     return render_template("tag-filter.html", filtered=filtered)
 
 
-@views.route("/filter-tag")
+@views.route("/filter-tag", methods=["POST"])
 def tag_filter():
-    # tag = json.loads(request.data)
-    # t = tag["t"]
-    t = "lunch"
+    t = json.loads(request.data)['tag']
+    # t = "chinese"
     print("to filter:", t)
-    # tag = Tags.query.filter_by(tag=t)
-    # filtered = Transactions.query.join(tag_transaction, Transactions.id==tag_transaction.tag_id).filter(tag_transaction.tag_id == tag.id)
-    filtered = db.session.execute(
-        text(
-            "SELECT * FROM transactions t JOIN tag_transaction ttag on t.id=ttag.transaction_id WHERE ttag.tag_id=(SELECT id FROM tags WHERE tag like 'lunch')"
-        )
-    )
-    return render_template("filter-tag.html", filtered=filtered)
+    filtered = Transactions.query.join(tag_transaction).join(Tags).filter_by(tag=t)
+    # filtered = db.session.execute(
+    #     text(
+    #         "SELECT * FROM transactions t JOIN tag_transaction ttag on t.id=ttag.transaction_id WHERE ttag.tag_id=(SELECT id FROM tags WHERE tag like 'lunch')"
+    #     )
+    # )
+    return render_template("filter-tag.html", filtered=filtered, tag=t)

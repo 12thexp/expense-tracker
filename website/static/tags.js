@@ -87,10 +87,14 @@
 function filterByTag(t) {
     console.log('made it here');
     console.log(t);
-    // fetch('/filter-tag', {
-    //     method: 'POST',
-    //     body: `tag = ${t}`,
-    // }).then((_res) => {
-    //     window.location.href = "./filter-tag"
-    // });
+    fetch('/filter-tag', {
+        method: "POST",
+        body: JSON.stringify({ tag: t })
+    });
 }
+
+
+/*.then((_res) => {
+        // window.location.href = `./filter-tag/${t}`
+        window.location.href = "./filter-tag"
+    })*/
