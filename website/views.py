@@ -7,6 +7,7 @@ from flask import (
     flash,
     json,
     jsonify,
+    url_for
 )
 from sqlalchemy import text
 from .models import Transactions, Categories, Tags, tag_transaction
@@ -103,15 +104,20 @@ def edit():
     return render_template("edit.html", history=history)
 
 
-@views.route("/filter-tag", methods=["POST"])
-def tag_filter():
+@views.route("/filter-tag", methods=["GET", "POST"])
+def filter_tag():
     t = json.loads(request.data)['tag']
-    # t = "chinese"
-    print("to filter:", t)
-    filtered = Transactions.query.join(tag_transaction).join(Tags).filter_by(tag=t)
+    # print("to filter:", t)
+    # filtered = Transactions.query.join(tag_transaction).join(Tags).filter_by(tag=t)
     # filtered = db.session.execute(
     #     text(
     #         "SELECT * FROM transactions t JOIN tag_transaction ttag on t.id=ttag.transaction_id WHERE ttag.tag_id=(SELECT id FROM tags WHERE tag like 'lunch')"
     #     )
     # )
-    return render_template("filter-tag.html", filtered=filtered, tag=t)
+    # return render_template("filter-tag.html", filtered=filtered, tag=t)
+    return url_for('/filter-tag', tag=t)
+
+@views.route("/filter-tag/<tag>", methods=["GET"])
+def filter_tag_t(tag):
+    filtered = Transactions.query.join(tag_transaction).join(Tags).filter_by(tag=tag)
+    return render_template("filter-tag.html", filtered=filtered, tag=tag)

@@ -84,17 +84,26 @@
 
 
 
+// function filterByTag(t) {
+//     console.log('made it here');
+//     console.log(t);
+//     fetch('/filter-tag', {
+//         method: "POST",
+//         body: JSON.stringify({ tag: t })
+//     });
+// }
+
+
 function filterByTag(t) {
     console.log('made it here');
     console.log(t);
     fetch('/filter-tag', {
         method: "POST",
-        body: JSON.stringify({ tag: t })
+        body: JSON.stringify({ tag: t }),
+        redirect: 'manual'
+    }).then((_res) => {
+        window.location.href = `./filter-tag/${t}`
+        // window.location.href = "./filter-tag"
+        console.log('here')
     });
 }
-
-
-/*.then((_res) => {
-        // window.location.href = `./filter-tag/${t}`
-        window.location.href = "./filter-tag"
-    })*/
