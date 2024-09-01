@@ -48,7 +48,7 @@ def home():
         tags_to_db(tags, new_transaction)
         db.session.merge(Categories(category=category))
         db.session.commit()
-        flash("Transaction inserted!", category="success")
+        flash("transaction inserted!", category="success")
 
         categories = Categories.query.order_by(Categories.category.asc()).all()
         history = Transactions.query.order_by(Transactions.date.desc()).all()

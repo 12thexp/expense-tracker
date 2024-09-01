@@ -24,14 +24,20 @@
             });
             mainInput.value = '';
         }
-    })
+    });
 
     mainInput.addEventListener('keydown', function (e) {
         let keyCode = e.which || e.keyCode;
+        // add a tag with Enter key in addition to comma
+        if (keyCode === 13 && mainInput.value.length > 0) {
+            addTag(mainInput.value);
+            mainInput.value = "";
+        }
+        // delete tag with backspace key
         if (keyCode === 8 && mainInput.value.length === 0 && tags.length > 0) {
             removeTag(tags.length - 1);
         }
-    })
+    });
 
     el.appendChild(mainInput);
     el.appendChild(hiddenInput);
