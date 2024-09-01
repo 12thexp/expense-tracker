@@ -12,7 +12,7 @@
         data-toggle="button"
         id="income"
         name="income"
-        value="Income"
+        value="income"
         onclick="return handleClick('in')"
       />
       <input
@@ -21,7 +21,7 @@
         data-toggle="button"
         id="expense"
         name="expense"
-        value="Expense"
+        value="expense"
         onclick="return handleClick('out')"
       />
 
@@ -29,22 +29,24 @@
     </div>
   </div>
 
+  <!-- date -->
   <div class="input-group mb-3">
-    <span class="input-group-text">Date</span>
+    <span class="input-group-text">date</span>
     <input
       type="date"
       class="form-control"
       placeholder="MM/DD/YYYY"
       id="date"
       name="date"
-      placeholder="Date"
-      aria-label="Date"
+      placeholder="date"
+      aria-label="date"
       required
     />
   </div>
 
+  <!-- category -->
   <div class="input-group mb-3">
-    <label class="input-group-text" for="category">Category</label>
+    <label class="input-group-text" for="category">category</label>
 
     <input type="hidden" name="category" id="category" />
     <select
@@ -57,7 +59,7 @@
       <!-- <option selected></option> -->
       <option value="" disabled selected>choose...</option>
       {% for cat in categories %}
-      <option value="{{cat.category}}">{{ cat.category }}</option>
+        <option value="{{cat.category}}">{{ cat.category }}</option>
       {% endfor %}
       <li><hr class="dropdown-divider" /></li>
       <option value="">+ Add new category</option>
@@ -70,6 +72,7 @@
     />
   </div>
 
+  <!-- amount -->
   <div class="input-group mb-3">
     <span class="input-group-text">$</span>
     <input
@@ -82,13 +85,14 @@
     />
   </div>
 
+  <!-- description -->
   <div class="input-group mb-3">
     <input
       type="text"
       class="form-control"
       id="description"
       name="description"
-      placeholder="Description"
+      placeholder="description"
       aria-label="Description"
     />
   </div>
@@ -97,15 +101,11 @@
   <p>
     <div class="tags-input" id="tags-input" data-name="tags-input"></div>
   </p>
-  <!-- <script
-    type="text/javascript"
-    src="{{ url_for('static', filename='tags.js')}}"
-  ></script> -->
 
-  <button type="submit" class="btn btn-primary">Add</button>
+  <button type="submit" class="btn btn-primary">add</button>
 
   <!-- <div style="float: inline-end;" -->
-  <a href="/edit" style="float: inline-end">Edit</a>
+  <a href="/edit" style="float: inline-end">edit</a>
   <!-- </div> -->
 
   <table class="table">

@@ -1,9 +1,9 @@
-{% extends "base.html" %} {% block title %}filter tags{% endblock %} {% block content
-%}
+{% extends "base.html" %} {% block title %}filter tags{% endblock %} {% block
+content %}
 <form method="POST">
   <h3 align="center">filter by tag: {{ tag }}</h3>
 
-  <a href="/" style="float: inline-end">Filteringgg</a>
+  <a href="/" style="float: inline-end">let's go home.</a>
 
   <!-- OSS: contenteditable doesn't save changes (yet) -->
   <table class="table">
@@ -34,7 +34,13 @@
         <td>
           <div class="tags-display">
             {% for t in row.tags %}
-            <button type="button" class="btn-tag" onclick="filterByTag('{{ t.__repr__() }}')">{{ t.__repr__() }}</button>
+            <button
+              type="button"
+              class="btn-tag"
+              onclick="filterByTag('{{ t.__repr__() }}')"
+            >
+              {{ t.__repr__() }}
+            </button>
             {% endfor %}
           </div>
         </td>

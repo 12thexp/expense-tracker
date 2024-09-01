@@ -55,7 +55,7 @@ def home():
 
         return render_template("home.html", history=history, categories=categories)
 
-    return render_template("home.html", history=history)
+    return render_template("home.html", history=history, categories=categories)
 
 
 def tags_to_db(tags: list, transaction: Transactions) -> None:
@@ -91,9 +91,7 @@ def delete_row():
         db.session.delete(row)
         db.session.commit()
 
-    flash("row deleted...", category="success")
-
-    history = Transactions.query.order_by(Transactions.id.desc()).all()
+    flash("going going gone...", category="success")
 
     return jsonify({})
 

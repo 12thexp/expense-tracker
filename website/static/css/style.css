@@ -85,12 +85,8 @@
     margin-left: 0.75em;
 }
 
-.tags-display .tag .close:hover::after {
-    color: red;
-}
 
-
-
-tr, th {
+tr,
+th {
     text-align: center;
 }
