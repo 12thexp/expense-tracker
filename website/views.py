@@ -103,17 +103,6 @@ def edit():
     return render_template("edit.html", history=history)
 
 
-# @views.route("/filter-tag", methods=["POST"])
-# def tag_filter():
-#     # tag = json.loads(request.data)
-#     # t = tag["t"]
-#     t = 'lunch'
-#     print('to filter:', t)
-#     tag_id = Tags.query.filter_by(tag=t).id
-#     filtered = Transactions.query.join(tag_transaction, Transactions.id==tag_transaction.tag_id).filter(tag_transaction.tag_id == t)
-#     return render_template("tag-filter.html", filtered=filtered)
-
-
 @views.route("/filter-tag", methods=["POST"])
 def tag_filter():
     t = json.loads(request.data)['tag']
