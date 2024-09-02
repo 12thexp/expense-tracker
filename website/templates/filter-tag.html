@@ -19,18 +19,10 @@ content %}
     <tbody>
       {% for row in filtered %}
       <tr>
-        <td>
-          <div>{{row.date}}</div>
-        </td>
-        <td>
-          <div>{{row.amount}}</div>
-        </td>
-        <td>
-          <div>{{row.category}}</div>
-        </td>
-        <td>
-          <div>{{row.description}}</div>
-        </td>
+        <td>{{row.date.strftime("%d/%m/%Y")}}</td>
+        <td><div class="amount-flag">{{row.amount}}</div></td>
+        <td>{{row.category}}</td>
+        <td>{{row.description}}</td>
         <td>
           <div class="tags-display">
             {% for t in row.tags %}
