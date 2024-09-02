@@ -56,18 +56,18 @@ def home():
             "home.html",
             history=history,
             categories=categories,
-            totIncome=income.total,
-            totExpense=expenses.total,
-            balance="{0:.2f}".format(balance),
+            totIncome="{0:.2f}".format(income.total),
+            totExpense="{0:.2f}".format(expenses.total),
+            balance="{0:.2f}".format(balance)
         )
 
     return render_template(
         "home.html",
         history=history,
         categories=categories,
-        totIncome=income.total,
-        totExpense=expenses.total,
-        balance="{0:.2f}".format(balance),
+        totIncome="{0:.2f}".format(income.total),
+        totExpense="{0:.2f}".format(expenses.total),
+        balance="{0:.2f}".format(balance)
     )
 
 def set_values():
