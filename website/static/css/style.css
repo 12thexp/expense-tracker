@@ -1,4 +1,37 @@
-/*  */
+.group-pos-container {
+    width: 29%;
+    height: 22em;
+    vertical-align: top;
+    display: inline-block;
+    align-self: right;
+}
+
+.positions {
+    color: blue;
+    border: none;
+    padding-top: 0;
+    padding-bottom: .69em;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.el-pos {
+    width: 13em;
+    border: 1px solid #cfd2d6;
+    border-radius: 0.375rem;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    margin: .75em;
+    text-align: center;
+    color: blue;
+}
+
+.el-val {
+    font-weight: bold;
+    font-size: larger;
+}
 
 /* tags */
 

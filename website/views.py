@@ -9,7 +9,7 @@ from flask import (
     jsonify,
     url_for,
 )
-from sqlalchemy import text
+from sqlalchemy import text, func
 from .models import Transactions, Categories, Tags, tag_transaction
 from . import db
 from datetime import datetime
@@ -21,8 +21,7 @@ views = Blueprint("views", __name__)
 @views.route("/", methods=["GET", "POST"])
 def home():
 
-    history = Transactions.query.order_by(Transactions.id.desc()).all()
-    categories = Categories.query.order_by(Categories.category.asc()).all()
+    set_values()
 
     if request.method == "POST":
         flag: str = request.form.get("flag")
@@ -36,7 +35,6 @@ def home():
         category: str = request.form.get("category")
         description: str = request.form.get("description")
         tags: list[str] = request.form.get("tags-input").split(",")
-
 
         new_transaction = Transactions(
             date=tdate,
@@ -52,17 +50,60 @@ def home():
         db.session.commit()
         flash("transaction inserted!", category="success")
 
-        categories = Categories.query.order_by(Categories.category.asc()).all()
-        history = Transactions.query.order_by(Transactions.date.desc()).all()
+        set_values()
+        
+        return render_template(
+            "home.html",
+            history=history,
+            categories=categories,
+            totIncome=income.total,
+            totExpense=expenses.total,
+            balance="{0:.2f}".format(balance),
+        )
 
-        return render_template("home.html", history=history, categories=categories)
+    return render_template(
+        "home.html",
+        history=history,
+        categories=categories,
+        totIncome=income.total,
+        totExpense=expenses.total,
+        balance="{0:.2f}".format(balance),
+    )
 
-    return render_template("home.html", history=history, categories=categories)
+def set_values():
+    global categories
+    global history
+    global expenses
+    global income
+    global balance
+
+    categories = Categories.query.order_by(Categories.category.asc()).all()
+    history = Transactions.query.order_by(Transactions.date.desc()).all()
+
+    expenses = (
+        Transactions.query.with_entities(
+            func.sum(Transactions.amount).label("total")
+        )
+        .filter_by(flag="out")
+        .first()
+    )
+
+    income = (
+        Transactions.query.with_entities(
+            func.sum(Transactions.amount).label("total")
+        )
+        .filter_by(flag="in")
+        .first()
+    )
+
+    balance = income.total + expenses.total
+
 
 def set_expense(amount, flag):
     if flag == "out":
         amount = -amount
     return amount
+
 
 def tags_to_db(tags: list, transaction: Transactions) -> None:
     """create Tags object from each tag in the list and insert into db"""
@@ -118,7 +159,6 @@ def filter_tag():
 def filter_tag_t(tag):
     filtered = Transactions.query.join(tag_transaction).join(Tags).filter_by(tag=tag)
     return render_template("filter-tag.html", filtered=filtered, tag=tag)
-
 
 
 @views.route("/sheet-view")

@@ -12,9 +12,16 @@ window.addEventListener('keydown', function (e) {
     }
 }, true);
 
+
+// prevent automatic form submit when refreshing page
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}
+
+
 // set color for amount based on whether it's income or expense
 let tableAmount = document.getElementsByClassName("amount-flag");
-for (let i=0; i < tableAmount.length; i++) {
+for (let i = 0; i < tableAmount.length; i++) {
     if (tableAmount[i].innerHTML < 0)
         tableAmount[i].parentNode.style.color = 'red';
     else if (tableAmount[i].innerHTML > 0)

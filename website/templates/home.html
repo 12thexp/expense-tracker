@@ -1,111 +1,125 @@
 {% extends "base.html" %} {% block title %}home{% endblock %} {% block content
 %}
 
-    <form method="POST" onsubmit="FormSubmit(this)">
-      <h3 align="center">add transaction</h3>
-      <div class="form-group">
-        <div class="input-group mb-3">
-          <div class="d-inline-flex gap-1"">
-          <input
-            type="button"
-            class="btn btn-outline-success"
-            data-toggle="button"
-            id="income"
-            name="income"
-            value="income"
-            onclick="return handleClick('in')"
-          />
-          <input
-            type="button"
-            class="btn btn-outline-danger"
-            data-toggle="button"
-            id="expense"
-            name="expense"
-            value="expense"
-            onclick="return handleClick('out')"
-          />
+<form method="POST" onsubmit="FormSubmit(this)" style="justify-content: space-between;">
+  <h3 align="center">add transaction</h3>
+  <div class="form-group" style="width: 70%; display: inline-block; align-self: left; padding-right: 0;">
+    <div class="input-group mb-3">
 
-          <input type="hidden" name="flag" id="flag" value="" />
-        </div>
+      <div class="d-inline-flex gap-1"">
+      <input
+        type="button"
+        class="btn btn-outline-success"
+        data-toggle="button"
+        id="income"
+        name="income"
+        value="income"
+        onclick="return handleClick('in')"
+      />
+      <input
+        type="button"
+        class="btn btn-outline-danger"
+        data-toggle="button"
+        id="expense"
+        name="expense"
+        value="expense"
+        onclick="return handleClick('out')"
+      />
       </div>
 
-      <!-- date -->
-      <div class="input-group mb-3">
-        <span class="input-group-text">date</span>
-        <input
-          type="date"
-          class="form-control"
-          placeholder="MM/DD/YYYY"
-          id="date"
-          name="date"
-          placeholder="date"
-          aria-label="date"
-          required
-        />
+      <input type="hidden" name="flag" id="flag" value="" />
+    </div>
+
+
+    <!-- date -->
+    <div class="input-group mb-3">
+      <span class="input-group-text">date</span>
+      <input
+        type="date"
+        class="form-control"
+        placeholder="MM/DD/YYYY"
+        id="date"
+        name="date"
+        placeholder="date"
+        aria-label="date"
+        required
+      />
+    </div>
+
+    <!-- category -->
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="category">category</label>
+
+      <input type="hidden" name="category" id="category" />
+      <select
+        class="form-select"
+        name="category_ddl"
+        id="category_ddl"
+        onchange="DropDownChanged(this);"
+        required
+      >
+        <!-- <option selected></option> -->
+        <option value="" disabled selected>choose...</option>
+        {% for cat in categories %}
+          <option value="{{cat.category}}">{{ cat.category }}</option>
+        {% endfor %}
+        <li><hr class="dropdown-divider" /></li>
+        <option value="">+ Add new category</option>
+      </select>
+      <input
+        type="text"
+        name="category_in"
+        id="category_in"
+        style="display: none"
+      />
+    </div>
+
+    <!-- amount -->
+    <div class="input-group mb-3">
+      <span class="input-group-text">€</span>
+      <input
+        type="float"
+        class="form-control"
+        id="amount"
+        name="amount"
+        aria-label="Amount"
+        required
+      />
+    </div>
+
+    <!-- description -->
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        name="description"
+        placeholder="description"
+        aria-label="Description"
+      />
+    </div>
+
+    <!-- tagging system -->
+    <p>
+      <div class="tags-input" id="tags-input" data-name="tags-input"></div>
+    </p>
+
+    <button type="submit" class="btn btn-primary">add</button>
+  </div>
+  <div class="group-pos-container">
+    <div class="positions">
+      <div class="el-pos" style="color: #198754; border-color: #198754;">Total Income
+        <div class="el-val">{{totIncome}}€</div>
       </div>
-
-      <!-- category -->
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="category">category</label>
-
-        <input type="hidden" name="category" id="category" />
-        <select
-          class="form-select"
-          name="category_ddl"
-          id="category_ddl"
-          onchange="DropDownChanged(this);"
-          required
-        >
-          <!-- <option selected></option> -->
-          <option value="" disabled selected>choose...</option>
-          {% for cat in categories %}
-            <option value="{{cat.category}}">{{ cat.category }}</option>
-          {% endfor %}
-          <li><hr class="dropdown-divider" /></li>
-          <option value="">+ Add new category</option>
-        </select>
-        <input
-          type="text"
-          name="category_in"
-          id="category_in"
-          style="display: none"
-        />
+      <div class="el-pos" style="color: #dc3545; border-color: #dc3545;">Total Expenses
+        <div class="el-val">{{totExpense}}€</div>
       </div>
-
-      <!-- amount -->
-      <div class="input-group mb-3">
-        <span class="input-group-text">€</span>
-        <input
-          type="float"
-          class="form-control"
-          id="amount"
-          name="amount"
-          aria-label="Amount"
-          required
-        />
+      <div class="el-pos" style="color: #0d6efd; border-color: #0d6efd;">Balance
+        <div class="el-val">{{balance}}€</div>
       </div>
-
-      <!-- description -->
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="description"
-          name="description"
-          placeholder="description"
-          aria-label="Description"
-        />
-      </div>
-
-      <!-- tagging system -->
-      <p>
-        <div class="tags-input" id="tags-input" data-name="tags-input"></div>
-      </p>
-
-      <button type="submit" class="btn btn-primary">add</button>
-
-    </form>
-
+    </div>
+    
+  </div>
 
 
 
@@ -126,7 +140,7 @@
     <tbody>
       {% for row in history %}
       <tr>
-        <td>{{row.date}}</td>
+        <td>{{row.date.strftime("%d/%m/%Y")}}</td>
         <td><div class="amount-flag">{{row.amount}}</div></td>
         <td>{{row.category}}</td>
         <td>{{row.description}}</td>
@@ -141,6 +155,6 @@
       </tr>
     </tbody>
   </table>
-
-
+</div>
+</form>
 {% endblock %}
