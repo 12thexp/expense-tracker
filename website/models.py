@@ -53,7 +53,6 @@ def init_db():
         "plants & gardening",
         "vehicles",
         "food from The Outside",
-        "social events",
         "public transport",
         "phone",
         "entertainment",
@@ -76,16 +75,16 @@ def init_db():
         date=date.today(), category="house", amount=-98, flag="out"
     )
     transactions2 = Transactions(
-        date=date.today(), category="plants", amount=-12, flag="out"
+        date=date.today(), category="plants & gardening", amount=-12, flag="out"
     )
     transactions3 = Transactions(
         date=date.today(), category="vehicles", amount=-80, flag="out"
     )
     transactions4 = Transactions(
-        date=date.today(), category="food", amount=-50, flag="out"
+        date=date.today(), category="food from The Outside", amount=-50, flag="out"
     )
     transactions5 = Transactions(
-        date=date.today(), category="food", amount=-20, flag="out"
+        date=date.today(), category="food from The Outside", amount=-20, flag="out"
     )
     transactions6 = Transactions(
         date=date.today(), category="work", amount=1000, flag="in"

@@ -1,3 +1,4 @@
+import sqlite3
 from flask import (
     Blueprint,
     render_template,
@@ -9,10 +10,12 @@ from flask import (
     jsonify,
     url_for,
 )
-from sqlalchemy import text, func
+from sqlalchemy import create_engine, text, func
 from .models import Transactions, Categories, Tags, tag_transaction
 from . import db
 from datetime import datetime
+import pandas as pd
+import numpy as np
 
 
 views = Blueprint("views", __name__)
@@ -26,8 +29,7 @@ def home():
     if request.method == "POST":
         flag: str = request.form.get("flag")
 
-        date: str = request.form.get("date")
-        tdate: datetime = datetime.strptime(date, "%Y-%m-%d").date()
+        date: datetime = datetime.strptime(request.form.get("date"), "%Y-%m-%d").date()
 
         amount: float = float(request.form.get("amount"))
         amount = set_expense(amount, flag)
@@ -37,7 +39,7 @@ def home():
         tags: list[str] = request.form.get("tags-input").split(",")
 
         new_transaction = Transactions(
-            date=tdate,
+            date=date,
             category=category,
             amount=amount,
             description=description,
@@ -161,6 +163,23 @@ def filter_tag_t(tag):
     return render_template("filter-tag.html", filtered=filtered, tag=tag)
 
 
-@views.route("/sheet-view")
+@views.route("/sheet-view", methods=["GET"])
 def sheet_view():
-    return render_template("sheet-view.html")
+
+    pd.set_option("display.float_format", "${:,.2f}".format)
+
+    # create connector
+    engine = create_engine("sqlite:///instance/database.db")
+    # create query object
+    query = db.session.query(Transactions.date, Transactions.category, Transactions.amount).filter_by(flag='out')
+    # pass query string and connector to read_sql()
+    df = pd.read_sql(str(query.statement.compile(compile_kwargs={"literal_binds": True})), engine)
+
+    # create pivot table
+    df_pivot = df.pivot_table(
+        values="amount", index="category", columns="date",
+        aggfunc=np.sum
+    )
+    print(df_pivot.to_html)
+   
+    return render_template("sheet-view.html", data=df_pivot.to_html(classes="table"))
