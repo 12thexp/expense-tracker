@@ -45,7 +45,27 @@ tag_transaction = db.Table(
 
 def init_db():
     """initialize the database with default data and test elements"""
-    default_categories = ["work", "food", "house", "car", "public transport"]
+    # default_categories = ["work", "food", "house", "car", "public transport"]
+    default_categories = [
+        "work",
+        "medical",
+        "groceries",
+        "plants & gardening",
+        "vehicles",
+        "food from The Outside",
+        "social events",
+        "public transport",
+        "phone",
+        "entertainment",
+        "things",
+        "house",
+        "haircuts",
+        "travel",
+        "concerts",
+        "art",
+        "gifts",
+        "other",
+    ]
     for x in default_categories:
         db.session.merge(Categories(category=x))
 
@@ -53,19 +73,22 @@ def init_db():
     from datetime import datetime, date
 
     transactions1 = Transactions(
-        date=date.today(), category="house", amount=98, flag="out"
+        date=date.today(), category="house", amount=-98, flag="out"
     )
     transactions2 = Transactions(
-        date=date.today(), category="plants", amount=12, flag="out"
+        date=date.today(), category="plants", amount=-12, flag="out"
     )
     transactions3 = Transactions(
-        date=date.today(), category="vehicles", amount=80, flag="out"
+        date=date.today(), category="vehicles", amount=-80, flag="out"
     )
     transactions4 = Transactions(
-        date=date.today(), category="food", amount=50, flag="out"
+        date=date.today(), category="food", amount=-50, flag="out"
     )
     transactions5 = Transactions(
-        date=date.today(), category="food", amount=20, flag="out"
+        date=date.today(), category="food", amount=-20, flag="out"
+    )
+    transactions6 = Transactions(
+        date=date.today(), category="work", amount=1000, flag="in"
     )
 
     tag1 = Tags(tag="motorbike")
@@ -76,6 +99,7 @@ def init_db():
     tag6 = Tags(tag="lunch")
     tag7 = Tags(tag="social events")
     tag8 = Tags(tag="chinese")
+    tag9 = Tags(tag="accenture")
 
     transactions1.tags.append(tag3)  # Tag the first Transactions with 'animals'
     transactions3.tags.append(tag1)  # Tag the third Transactions with 'cooking'
@@ -85,9 +109,11 @@ def init_db():
     transactions4.tags.append(tag7)
     transactions5.tags.append(tag6)
     transactions5.tags.append(tag8)
+    transactions6.tags.append(tag9)
+
 
     db.session.add_all(
-        [transactions1, transactions2, transactions3, transactions4, transactions5]
+        [transactions1, transactions2, transactions3, transactions4, transactions5, transactions6]
     )
     db.session.add_all([tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8])
 

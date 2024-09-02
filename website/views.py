@@ -25,16 +25,18 @@ def home():
     categories = Categories.query.order_by(Categories.category.asc()).all()
 
     if request.method == "POST":
+        flag: str = request.form.get("flag")
+
         date: str = request.form.get("date")
         tdate: datetime = datetime.strptime(date, "%Y-%m-%d").date()
+
         amount: float = float(request.form.get("amount"))
+        amount = set_expense(amount, flag)
+
         category: str = request.form.get("category")
         description: str = request.form.get("description")
         tags: list[str] = request.form.get("tags-input").split(",")
-        flag: str = request.form.get("flag")
 
-        if flag == "out":
-            amount = -amount
 
         new_transaction = Transactions(
             date=tdate,
@@ -57,6 +59,10 @@ def home():
 
     return render_template("home.html", history=history, categories=categories)
 
+def set_expense(amount, flag):
+    if flag == "out":
+        amount = -amount
+    return amount
 
 def tags_to_db(tags: list, transaction: Transactions) -> None:
     """create Tags object from each tag in the list and insert into db"""
@@ -66,9 +72,9 @@ def tags_to_db(tags: list, transaction: Transactions) -> None:
         transaction.tags.append(t_obj)  # tag the transactions with tag t
 
 
-@views.route("/stats")
-def stats():
-    return render_template("stats.html")
+@views.route("/analytics")
+def analytics():
+    return render_template("analytics.html")
 
 
 @views.route("/income")
@@ -112,3 +118,9 @@ def filter_tag():
 def filter_tag_t(tag):
     filtered = Transactions.query.join(tag_transaction).join(Tags).filter_by(tag=tag)
     return render_template("filter-tag.html", filtered=filtered, tag=tag)
+
+
+
+@views.route("/sheet-view")
+def sheet_view():
+    return render_template("sheet-view.html")

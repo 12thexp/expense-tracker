@@ -1,108 +1,113 @@
 {% extends "base.html" %} {% block title %}home{% endblock %} {% block content
 %}
 
-<form method="POST" onsubmit="FormSubmit(this)">
-  <h3 align="center">add transaction</h3>
-  <div class="form-group">
-    <div class="input-group mb-3">
-      <div class="d-inline-flex gap-1"">
-      <input
-        type="button"
-        class="btn btn-outline-success"
-        data-toggle="button"
-        id="income"
-        name="income"
-        value="income"
-        onclick="return handleClick('in')"
-      />
-      <input
-        type="button"
-        class="btn btn-outline-danger"
-        data-toggle="button"
-        id="expense"
-        name="expense"
-        value="expense"
-        onclick="return handleClick('out')"
-      />
+    <form method="POST" onsubmit="FormSubmit(this)">
+      <h3 align="center">add transaction</h3>
+      <div class="form-group">
+        <div class="input-group mb-3">
+          <div class="d-inline-flex gap-1"">
+          <input
+            type="button"
+            class="btn btn-outline-success"
+            data-toggle="button"
+            id="income"
+            name="income"
+            value="income"
+            onclick="return handleClick('in')"
+          />
+          <input
+            type="button"
+            class="btn btn-outline-danger"
+            data-toggle="button"
+            id="expense"
+            name="expense"
+            value="expense"
+            onclick="return handleClick('out')"
+          />
 
-      <input type="hidden" name="flag" id="flag" value="" />
-    </div>
-  </div>
+          <input type="hidden" name="flag" id="flag" value="" />
+        </div>
+      </div>
 
-  <!-- date -->
-  <div class="input-group mb-3">
-    <span class="input-group-text">date</span>
-    <input
-      type="date"
-      class="form-control"
-      placeholder="MM/DD/YYYY"
-      id="date"
-      name="date"
-      placeholder="date"
-      aria-label="date"
-      required
-    />
-  </div>
+      <!-- date -->
+      <div class="input-group mb-3">
+        <span class="input-group-text">date</span>
+        <input
+          type="date"
+          class="form-control"
+          placeholder="MM/DD/YYYY"
+          id="date"
+          name="date"
+          placeholder="date"
+          aria-label="date"
+          required
+        />
+      </div>
 
-  <!-- category -->
-  <div class="input-group mb-3">
-    <label class="input-group-text" for="category">category</label>
+      <!-- category -->
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="category">category</label>
 
-    <input type="hidden" name="category" id="category" />
-    <select
-      class="form-select"
-      name="category_ddl"
-      id="category_ddl"
-      onchange="DropDownChanged(this);"
-      required
-    >
-      <!-- <option selected></option> -->
-      <option value="" disabled selected>choose...</option>
-      {% for cat in categories %}
-        <option value="{{cat.category}}">{{ cat.category }}</option>
-      {% endfor %}
-      <li><hr class="dropdown-divider" /></li>
-      <option value="">+ Add new category</option>
-    </select>
-    <input
-      type="text"
-      name="category_in"
-      id="category_in"
-      style="display: none"
-    />
-  </div>
+        <input type="hidden" name="category" id="category" />
+        <select
+          class="form-select"
+          name="category_ddl"
+          id="category_ddl"
+          onchange="DropDownChanged(this);"
+          required
+        >
+          <!-- <option selected></option> -->
+          <option value="" disabled selected>choose...</option>
+          {% for cat in categories %}
+            <option value="{{cat.category}}">{{ cat.category }}</option>
+          {% endfor %}
+          <li><hr class="dropdown-divider" /></li>
+          <option value="">+ Add new category</option>
+        </select>
+        <input
+          type="text"
+          name="category_in"
+          id="category_in"
+          style="display: none"
+        />
+      </div>
 
-  <!-- amount -->
-  <div class="input-group mb-3">
-    <span class="input-group-text">$</span>
-    <input
-      type="float"
-      class="form-control"
-      id="amount"
-      name="amount"
-      aria-label="Amount"
-      required
-    />
-  </div>
+      <!-- amount -->
+      <div class="input-group mb-3">
+        <span class="input-group-text">€</span>
+        <input
+          type="float"
+          class="form-control"
+          id="amount"
+          name="amount"
+          aria-label="Amount"
+          required
+        />
+      </div>
 
-  <!-- description -->
-  <div class="input-group mb-3">
-    <input
-      type="text"
-      class="form-control"
-      id="description"
-      name="description"
-      placeholder="description"
-      aria-label="Description"
-    />
-  </div>
+      <!-- description -->
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          name="description"
+          placeholder="description"
+          aria-label="Description"
+        />
+      </div>
 
-  <!-- tagging system -->
-  <p>
-    <div class="tags-input" id="tags-input" data-name="tags-input"></div>
-  </p>
+      <!-- tagging system -->
+      <p>
+        <div class="tags-input" id="tags-input" data-name="tags-input"></div>
+      </p>
 
-  <button type="submit" class="btn btn-primary">add</button>
+      <button type="submit" class="btn btn-primary">add</button>
+
+    </form>
+
+
+
 
   <!-- <div style="float: inline-end;" -->
   <a href="/edit" style="float: inline-end">edit</a>
@@ -122,7 +127,7 @@
       {% for row in history %}
       <tr>
         <td>{{row.date}}</td>
-        <td>{{row.amount}}</td>
+        <td><div class="amount-flag">{{row.amount}}</div></td>
         <td>{{row.category}}</td>
         <td>{{row.description}}</td>
         <td>
@@ -136,6 +141,6 @@
       </tr>
     </tbody>
   </table>
-</form>
+
 
 {% endblock %}

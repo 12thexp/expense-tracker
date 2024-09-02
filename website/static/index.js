@@ -12,6 +12,15 @@ window.addEventListener('keydown', function (e) {
     }
 }, true);
 
+// set color for amount based on whether it's income or expense
+let tableAmount = document.getElementsByClassName("amount-flag");
+for (let i=0; i < tableAmount.length; i++) {
+    if (tableAmount[i].innerHTML < 0)
+        tableAmount[i].parentNode.style.color = 'red';
+    else if (tableAmount[i].innerHTML > 0)
+        tableAmount[i].parentNode.style.color = 'green';
+    tableAmount[i].innerHTML += '€';
+}
 
 
 // handles 'Income' and 'Expenses' flags
