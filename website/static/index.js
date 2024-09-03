@@ -68,3 +68,10 @@ function FormSubmit() {
         oHidden.value = (oDDL.value == "") ? newCategoryTxt.value : oDDL.value;
 
 }
+
+
+let years = document.getElementById("yearSelect");
+
+for (let i=0; i < years.length; i++) {
+    years[i].selectedIndex = 0;
+}

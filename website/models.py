@@ -60,7 +60,6 @@ def init_db():
         "house",
         "haircuts",
         "travel",
-        "concerts",
         "art",
         "gifts",
         "other",

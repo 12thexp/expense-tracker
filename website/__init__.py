@@ -22,7 +22,7 @@ def create_app():
     from .models import Transactions, Categories, Tags, init_db
 
     with app.app_context():
-        db.drop_all()
+        # db.drop_all()
         db.create_all()
-        init_db()
+        # init_db()
     return app

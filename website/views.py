@@ -10,7 +10,8 @@ from flask import (
     jsonify,
     url_for,
 )
-from sqlalchemy import create_engine, text, func
+from sqlalchemy import create_engine, extract, text, func
+from sqlalchemy.sql import extract
 from .models import Transactions, Categories, Tags, tag_transaction
 from . import db
 from datetime import datetime
@@ -53,14 +54,14 @@ def home():
         flash("transaction inserted!", category="success")
 
         set_values()
-        
+
         return render_template(
             "home.html",
             history=history,
             categories=categories,
             totIncome="{0:.2f}".format(income.total),
             totExpense="{0:.2f}".format(expenses.total),
-            balance="{0:.2f}".format(balance)
+            balance="{0:.2f}".format(balance),
         )
 
     return render_template(
@@ -69,8 +70,9 @@ def home():
         categories=categories,
         totIncome="{0:.2f}".format(income.total),
         totExpense="{0:.2f}".format(expenses.total),
-        balance="{0:.2f}".format(balance)
+        balance="{0:.2f}".format(balance),
     )
+
 
 def set_values():
     global categories
@@ -83,17 +85,13 @@ def set_values():
     history = Transactions.query.order_by(Transactions.date.desc()).all()
 
     expenses = (
-        Transactions.query.with_entities(
-            func.sum(Transactions.amount).label("total")
-        )
+        Transactions.query.with_entities(func.sum(Transactions.amount).label("total"))
         .filter_by(flag="out")
         .first()
     )
 
     income = (
-        Transactions.query.with_entities(
-            func.sum(Transactions.amount).label("total")
-        )
+        Transactions.query.with_entities(func.sum(Transactions.amount).label("total"))
         .filter_by(flag="in")
         .first()
     )
@@ -163,23 +161,63 @@ def filter_tag_t(tag):
     return render_template("filter-tag.html", filtered=filtered, tag=tag)
 
 
-@views.route("/sheet-view", methods=["GET"])
-def sheet_view():
+@views.route("/pivot-table", methods=["GET", "POST"])
+def pivot_table():
 
     pd.set_option("display.float_format", "${:,.2f}".format)
 
+    years_extraction = db.session.execute(
+        db.session.query(extract("year", Transactions.date).label("year")).distinct()
+    ).fetchall()
+    years = [
+        y[0] for y in years_extraction
+    ]  # query execution extracts a tuple (year,), this cleans it to 'year'. type int
+
+    year_selected = request.form.get("yearSelect")  # OSS it's of type string!!
+
+    print("yearSelected:", type(year_selected))
+    print("years[0]", type(years[0]))
+
     # create connector
-    engine = create_engine("sqlite:///instance/database.db")
+    # engine = create_engine("sqlite:///instance/database.db")
+    if year_selected is None:
+        year_selected = datetime.today().year
+
     # create query object
-    query = db.session.query(Transactions.date, Transactions.category, Transactions.amount).filter_by(flag='out')
+    query = (
+        db.session.query(Transactions.date, Transactions.category, Transactions.amount)
+        .filter_by(flag="out")
+        .filter(extract("year", Transactions.date).label("year") == year_selected)
+    )
+
+    df = pd.DataFrame(db.session.execute(query).fetchall())
+
+    # db.session.query(
+    #     Transactions.date, Transactions.category, Transactions.amount
+    # ).filintter_by(flag="out"))
+
     # pass query string and connector to read_sql()
-    df = pd.read_sql(str(query.statement.compile(compile_kwargs={"literal_binds": True})), engine)
+    # df = pd.read_sql(
+    #     str(query.statement.compile(compile_kwargs={"literal_binds": True})), engine
+    # )
+
+    # print(df)
+
+    df.date = pd.to_datetime(df.date).dt.strftime("%Y-%m")
 
     # create pivot table
     df_pivot = df.pivot_table(
-        values="amount", index="category", columns="date",
-        aggfunc=np.sum
+        values="amount",
+        index="category",
+        columns="date",
+        aggfunc=np.sum,
+        margins=True,
+        margins_name="Totals",
     )
-    print(df_pivot.to_html)
-   
-    return render_template("sheet-view.html", data=df_pivot.to_html(classes="table"))
+
+    return render_template(
+        "pivot-table.html",
+        data=df_pivot.to_html(classes="table"),
+        years=years,
+        year_selected=int(year_selected),
+    )

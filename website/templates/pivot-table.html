@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}pivot-table{% endblock %} {% block
+content %}
+
+<h1>{{year_selected}} expenses</h1>
+<form method="POST">
+  <select
+    name="yearSelect"
+    id="yearSelect"
+    onchange="document.forms[0].submit();"
+  >
+    {% for y in years %}
+    <script>console.log({{y}}, {{year_selected}})</script>
+        {% if y == year_selected %}
+            <option selected value="{{ y }}">{{ y }}</option>
+            <script>console.log("am here!!")</script>
+
+        {% else %}
+            <option value="{{ y }}">{{ y }}</option>
+
+        {% endif %}
+    {% endfor %}
+  </select>
+</form>
+{{data | safe}}
+
+
+{% endblock %}
