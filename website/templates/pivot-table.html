@@ -9,10 +9,8 @@ content %}
     onchange="document.forms[0].submit();"
   >
     {% for y in years %}
-    <script>console.log({{y}}, {{year_selected}})</script>
         {% if y == year_selected %}
             <option selected value="{{ y }}">{{ y }}</option>
-            <script>console.log("am here!!")</script>
 
         {% else %}
             <option value="{{ y }}">{{ y }}</option>
