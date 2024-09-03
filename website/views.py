@@ -166,6 +166,7 @@ def pivot_table():
 
     pd.set_option("display.float_format", "${:,.2f}".format)
 
+    # extract distinct years of past transactions
     years_extraction = db.session.execute(
         db.session.query(extract("year", Transactions.date).label("year")).distinct()
     ).fetchall()
@@ -175,15 +176,12 @@ def pivot_table():
 
     year_selected = request.form.get("yearSelect")  # OSS it's of type string!!
 
-    print("yearSelected:", type(year_selected))
-    print("years[0]", type(years[0]))
-
     # create connector
     # engine = create_engine("sqlite:///instance/database.db")
     if year_selected is None:
         year_selected = datetime.today().year
 
-    # create query object
+    # create query object for Transactions of selected year
     query = (
         db.session.query(Transactions.date, Transactions.category, Transactions.amount)
         .filter_by(flag="out")
@@ -201,9 +199,7 @@ def pivot_table():
     #     str(query.statement.compile(compile_kwargs={"literal_binds": True})), engine
     # )
 
-    # print(df)
-
-    df.date = pd.to_datetime(df.date).dt.strftime("%Y-%m")
+    df.date = pd.to_datetime(df.date).dt.strftime("%m")
 
     # create pivot table
     df_pivot = df.pivot_table(
