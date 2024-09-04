@@ -8,18 +8,25 @@ content %}
     id="year-select"
     onchange="document.forms[0].submit();"
   >
-    {% for y in years %}
-        {% if y == year_selected %}
-            <option selected value="{{ y }}">{{ y }}</option>
+    {% for y in years %} {% if y == year_selected %}
+    <option selected value="{{ y }}">{{ y }}</option>
 
-        {% else %}
-            <option value="{{ y }}">{{ y }}</option>
+    {% else %}
+    <option value="{{ y }}">{{ y }}</option>
 
-        {% endif %}
-    {% endfor %}
+    {% endif %} {% endfor %}
   </select>
 </form>
-{{data | safe}}
+<div>
+  {{exp_pivot | safe}}
+</div>
+<h1 style="text-align: center">{{year_selected}} income</h1>
+<div>
+  {{inc_pivot | safe}} 
+</div>
 
-
+<h1 style="text-align: center">{{year_selected}} balance</h1>
+<div class="amount-flag">
+  {{balance_pivot | safe}} 
+</div>
 {% endblock %}

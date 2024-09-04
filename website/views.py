@@ -18,6 +18,7 @@ from . import db
 from datetime import datetime
 import pandas as pd
 import numpy as np
+from io import StringIO
 
 
 views = Blueprint("views", __name__)
@@ -165,8 +166,39 @@ def filter_tag_t(tag):
 @views.route("/pivot-table", methods=["GET", "POST"])
 def pivot_table():
 
-    pd.set_option("display.float_format", "${:,.2f}".format)
+    pd.set_option("display.float_format", "{:.2f}".format)
 
+    # distinct years for which we have trasnactions -> for the filtering select dropdown
+    years = extract_years()
+    print(years)
+
+    year_selected = request.form.get("year-select")  # OSS it's of type string!!
+    print(year_selected)
+
+    if year_selected is None:
+        year_selected = datetime.today().year
+
+    exp_pivot = pivot_calc(flag="out", year_selected=year_selected)
+    exp_pivot.fillna(0, inplace=True)
+
+    inc_pivot = pivot_calc(flag="in", year_selected=year_selected)
+    inc_pivot.fillna(0, inplace=True)
+
+    balance_pivot = exp_pivot.add(inc_pivot, fill_value=0)
+
+    balance_html = style_balance_pivot(balance_pivot)
+
+    return render_template(
+        "pivot-table.html",
+        exp_pivot=exp_pivot.replace(0, "-").to_html(classes="table"),
+        inc_pivot=inc_pivot.replace(0, "-").to_html(classes="table"),
+        balance_pivot=balance_html,
+        years=years,
+        year_selected=int(year_selected),
+    )
+
+
+def extract_years():
     # extract distinct years of past transactions
     years_extraction = db.session.execute(
         db.session.query(extract("year", Transactions.date).label("year")).distinct()
@@ -177,17 +209,14 @@ def pivot_table():
 
     years.sort(reverse=True)
 
-    year_selected = request.form.get("year-select")  # OSS it's of type string!!
+    return years
 
-    # create connector
-    # engine = create_engine("sqlite:///instance/database.db")
-    if year_selected is None:
-        year_selected = datetime.today().year
 
+def pivot_calc(flag, year_selected):
     # create query object for Transactions of selected year
     query = (
         db.session.query(Transactions.date, Transactions.category, Transactions.amount)
-        .filter_by(flag="out")
+        .filter_by(flag=flag)
         .filter(extract("year", Transactions.date).label("year") == year_selected)
     )
 
@@ -205,11 +234,22 @@ def pivot_table():
         margins_name="Totals",
     )
 
-    df_pivot.fillna("-", inplace=True)
+    return df_pivot
 
-    return render_template(
-        "pivot-table.html",
-        data=df_pivot.to_html(classes="table"),
-        years=years,
-        year_selected=int(year_selected),
-    )
+
+def style_balance_pivot(balance_pivot):
+    # to style format table with red/green amounts... sigh. save the html code then find and replace relevant bits to
+    # use same class as homepage style amounts
+    buff = StringIO()
+    balance_pivot.replace(0, "-").to_html(buff)
+    balance_html = buff.getvalue()
+
+    replacements = [
+        ('class="dataframe">', 'class="table">'),
+        ("<td>", '<td><div class="amount-flag">'),
+        ("</td>", "</div></td>"),
+    ]
+    for k, v in replacements:
+        balance_html = balance_html.replace(k, v)
+
+    return balance_html
