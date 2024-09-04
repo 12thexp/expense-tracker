@@ -195,8 +195,6 @@ def pivot_table():
 
     df.date = pd.to_datetime(df.date).dt.strftime("%m")
 
-    print(df.date)
-
     # create pivot table
     df_pivot = df.pivot_table(
         values="amount",
