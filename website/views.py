@@ -1,3 +1,4 @@
+import calendar
 import sqlite3
 from flask import (
     Blueprint,
@@ -174,7 +175,9 @@ def pivot_table():
         y[0] for y in years_extraction
     ]  # query execution extracts a tuple (year,), this cleans it to 'year'. type int
 
-    year_selected = request.form.get("yearSelect")  # OSS it's of type string!!
+    years.sort(reverse=True)
+
+    year_selected = request.form.get("year-select")  # OSS it's of type string!!
 
     # create connector
     # engine = create_engine("sqlite:///instance/database.db")
@@ -190,16 +193,9 @@ def pivot_table():
 
     df = pd.DataFrame(db.session.execute(query).fetchall())
 
-    # db.session.query(
-    #     Transactions.date, Transactions.category, Transactions.amount
-    # ).filintter_by(flag="out"))
-
-    # pass query string and connector to read_sql()
-    # df = pd.read_sql(
-    #     str(query.statement.compile(compile_kwargs={"literal_binds": True})), engine
-    # )
-
     df.date = pd.to_datetime(df.date).dt.strftime("%m")
+
+    print(df.date)
 
     # create pivot table
     df_pivot = df.pivot_table(
@@ -210,6 +206,8 @@ def pivot_table():
         margins=True,
         margins_name="Totals",
     )
+
+    df_pivot.fillna("-", inplace=True)
 
     return render_template(
         "pivot-table.html",

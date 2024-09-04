@@ -70,7 +70,7 @@ function FormSubmit() {
 }
 
 
-let years = document.getElementById("yearSelect");
+let years = document.getElementById("year-select");
 
 for (let i=0; i < years.length; i++) {
     years[i].selectedIndex = 0;

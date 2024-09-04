@@ -125,9 +125,14 @@ th {
     text-align: center;
 }
 
-.pivot-table {
-    
-
-      
-        
+#year-select {
+    float: right;
+    /* margin-right: 6em; */
+    color: #0d6efd;
+    border: none;
+    border-radius: 6px;
+    margin-bottom: 2em;
+    font-size: larger;
+    background-color: white;
+    padding: 0.5em;
 }
