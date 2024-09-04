@@ -2,7 +2,11 @@
 *.log
 instance/database.db
 
-# ignore ALL files in ANY directory named temp
+# ignore ALL files in ANY directory named env
 env/ 
 
 __pycache__
+
+aly_exp.csv
+
+test.ipynb

@@ -109,10 +109,40 @@ def init_db():
     transactions5.tags.append(tag8)
     transactions6.tags.append(tag9)
 
-
     db.session.add_all(
-        [transactions1, transactions2, transactions3, transactions4, transactions5, transactions6]
+        [
+            transactions1,
+            transactions2,
+            transactions3,
+            transactions4,
+            transactions5,
+            transactions6,
+        ]
     )
     db.session.add_all([tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8])
+
+    import csv
+
+    with open(
+        "/home/jarvis/Documents/python/expense-tracker/expenses_csv.csv", newline=""
+    ) as f:
+        t_list = csv.reader(f, delimiter=",")
+        for t in t_list:
+            print(t)
+            tags = t[4].split(",")
+            if t[5] == "out":
+                t[2] = "-" + t[2]
+            new_t = Transactions(
+                date=datetime.strptime(t[0], "%Y-%m-%d"),
+                category=t[1],
+                amount=float(t[2]),
+                description=t[3],
+                flag=t[5],
+            )
+            for tag in tags:
+                new_t.tags.append(Tags(tag=tag))
+
+            db.session.add(new_t)
+            db.session.add_all(new_t.tags)
 
     db.session.commit()
