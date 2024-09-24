@@ -70,8 +70,17 @@ def init_db():
         db.session.merge(Categories(category=x))
 
     # test initialization
+    load_csv("aly_exp.csv")
+    load_csv("test_expenses.csv")
 
-    with open("test_expenses.csv", newline="") as f:
+
+
+
+
+
+
+def load_csv(filename: str):
+    with open(filename, newline="") as f:
         t_list = csv.reader(f, delimiter=",")
         for t in t_list:
             tags = t[4].split(",")
